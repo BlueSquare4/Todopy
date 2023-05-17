@@ -1,2 +1,5 @@
 Flask
+Graphene
+stripe
+keycloak
 gunicorn

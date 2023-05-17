@@ -7,7 +7,6 @@ import stripe
 from flask_sqlalchemy import SQLAlchemy
 from .config import KEYCLOAK_CONFIG, keycloak_openid
 
-# Initialize Flask app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://evt8kxhzusg3idjhmk5g:pscale_pw_OROK0Ux41p5XNLVJKyAeza45vAbexH7I8JtwCGOtJPu@aws.connect.psdb.cloud/aj_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -16,26 +15,25 @@ app.config.update(KEYCLOAK_CONFIG)
 
 
 
-# Initialize Stripe API key
+
 stripe.api_key = 'sk_test_tR3PYbcVNZZ796tH88S4VQ2u'
 
 
-# Serve index page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Serve static files
+
 @app.route('/static/<path:path>')
 def serve_static(path):
     return send_from_directory('static', path)
 
-# Serve template files
+
 @app.route('/templates/<path:path>')
 def serve_templates(path):
     return send_from_directory('templates', path)
   
-# Define GraphQL schema
+
 class Todo(ObjectType):
     id = Int()
     title = String()
@@ -100,12 +98,10 @@ class Mutation(ObjectType):
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
 
-# Define route for GraphQL API
+
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True, **app.config))
 
 
-
-# bind the GraphQL schema to the Flask app
 schema = graphene.Schema(query=Query, mutation=Mutation)
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
 
