@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Task</title>
+</head>
+<body>
+    <h1>Edit Task</h1>
+    <form method="POST" action="{{ url_for('edit_task', index=index) }}">
+        <input type="text" name="task" value="{{ task }}">
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

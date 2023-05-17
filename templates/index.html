@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <ul>
+        {% for todo in todos %}
+            <li>
+                {{ todo.title }} - {{ todo.description }} - {{ todo.image_url }} - {{ todo.created_at }}
+                <form method="post" action="{{ url_for('delete_todo') }}">
+                    <input type="hidden" name="id" value="{{ todo.id }}">
+                    <input type="submit" value="Delete">
+                </form>
+                <form method="get" action="{{ url_for('edit_todo') }}">
+                    <input type="hidden" name="id" value="{{ todo.id }}">
+                    <input type="submit" value="Edit">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{{ url_for('add_todo') }}">
+        <label for="title">Title:</label>
+        <input type="text" name="title" required>
+        <br>
+        <label for="description">Description:</label>
+        <textarea name="description"></textarea>
+        <br>
+        <label for="image">Image:</label>
+        <input type="file" name="image">
+        <br>
+        <input type="submit" value="Add Todo">
+    </form>
+    <form>
+      <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="pk_test_1234567890"
+        data-amount="999"
+        data-name="Todo List"
+        data-description="Todo Payment"
+        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-locale="auto">
+      </script>
+    </form>
+</body>
+</html>
